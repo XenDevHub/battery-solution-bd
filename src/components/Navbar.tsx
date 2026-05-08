@@ -1,95 +1,100 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <nav style={{
-      backgroundColor: "var(--surface)",
-      borderBottom: "1px solid var(--outline-variant)",
-      position: "sticky",
+      height: "80px",
+      display: "flex",
+      alignItems: "center",
+      backgroundColor: "var(--primary)",
+      color: "var(--on-primary)",
+      position: "fixed",
       top: 0,
-      zIndex: 50,
-      width: "100%"
+      left: 0,
+      right: 0,
+      zIndex: 1000,
+      borderBottom: "1px solid rgba(255,255,255,0.1)"
     }}>
       <div className="container" style={{
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        padding: "1rem var(--container-padding)"
+        width: "100%"
       }}>
-        <div className="headline-md" style={{ color: "var(--primary)", fontWeight: "bold" }}>
-          Dhaka Battery Co.
-        </div>
-        
-        <div className="flex" style={{ gap: "2rem", display: "none" }} id="desktop-menu">
-          {/* Using display: none initially, will use media queries in CSS */}
-          <a href="#" className="label-caps" style={{ color: "var(--secondary)", borderBottom: "2px solid var(--secondary)", paddingBottom: "4px" }}>Products</a>
-          <a href="#" className="label-caps" style={{ color: "var(--on-surface-variant)" }}>Solar Solutions</a>
-          <a href="#" className="label-caps" style={{ color: "var(--on-surface-variant)" }}>Tutorials</a>
-          <a href="#" className="label-caps" style={{ color: "var(--on-surface-variant)" }}>About Us</a>
+        <a href="/" className="headline-md" style={{ color: "var(--on-primary)", fontWeight: "bold", textDecoration: "none" }}>
+          Battery Solution Bd
+        </a>
+
+        {/* Desktop Menu */}
+        <div className="hidden md:flex items-center" id="desktop-menu" style={{ display: "flex", gap: "5rem" }}>
+          <a href="#products-section" className="label-caps" style={{ color: "var(--on-primary)", transition: "color 0.2s" }}>Products</a>
+          <a href="#videos-section" className="label-caps" style={{ color: "var(--on-primary)", transition: "color 0.2s" }}>Videos</a>
+          <a href="/admin/" className="label-caps" style={{ color: "var(--on-primary)", border: "1px solid rgba(255,255,255,0.2)", padding: "4px 12px", borderRadius: "4px" }}>Admin</a>
         </div>
 
-        <div className="flex items-center" style={{ gap: "1rem" }}>
-          <div style={{ position: "relative", display: "none" }} id="search-box">
-            <span className="material-symbols-outlined" style={{
-              position: "absolute",
-              left: "12px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              color: "var(--outline)",
-              fontSize: "20px"
-            }}>search</span>
-            <input 
-              type="text" 
-              placeholder="Search components..." 
-              style={{
-                paddingLeft: "40px",
-                paddingRight: "16px",
-                paddingTop: "8px",
-                paddingBottom: "8px",
-                backgroundColor: "var(--surface-container)",
-                border: "1px solid var(--outline-variant)",
-                outline: "none",
-                width: "250px",
-                fontFamily: "inherit"
-              }}
-            />
-          </div>
-          <button className="label-caps" style={{
-            backgroundColor: "var(--secondary)",
-            color: "var(--on-secondary)",
-            padding: "0.5rem 1.5rem",
+        {/* Hamburger Button */}
+        <button 
+          className="md:hidden" 
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          style={{
+            background: "none",
             border: "none",
+            color: "var(--on-primary)",
             cursor: "pointer",
-            transition: "all 0.2s"
-          }}>
-            Enquire Now
-          </button>
-        </div>
+            display: "none" // Managed by media query
+          }}
+          id="mobile-menu-toggle"
+        >
+          <span className="material-symbols-outlined" style={{ fontSize: "32px" }}>
+            {isMenuOpen ? 'close' : 'menu'}
+          </span>
+        </button>
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      <div style={{
+        position: "fixed",
+        top: "80px",
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "var(--primary)",
+        zIndex: 999,
+        display: isMenuOpen ? "flex" : "none",
+        flexDirection: "column",
+        alignItems: "center",
+        paddingTop: "2rem",
+        gap: "2rem",
+        transition: "all 0.3s ease-in-out"
+      }}>
+        <a href="#products-section" onClick={() => setIsMenuOpen(false)} className="headline-md" style={{ color: "var(--on-primary)" }}>Products</a>
+        <a href="#videos-section" onClick={() => setIsMenuOpen(false)} className="headline-md" style={{ color: "var(--on-primary)" }}>Videos</a>
+        <a href="/admin/" onClick={() => setIsMenuOpen(false)} className="headline-md" style={{ color: "var(--secondary)", fontWeight: "bold" }}>Admin Portal</a>
       </div>
 
       <style jsx>{`
         #desktop-menu {
           display: flex !important;
         }
-        #search-box {
-          display: block !important;
+        #desktop-menu a:hover {
+          color: var(--secondary) !important;
         }
+        
+        #mobile-menu-toggle {
+          display: none !important;
+        }
+
         @media (max-width: 768px) {
           #desktop-menu {
             display: none !important;
           }
-          #search-box {
-            display: none !important;
+          #mobile-menu-toggle {
+            display: block !important;
           }
-        }
-        button:hover {
-          background-color: var(--secondary-container) !important;
-          transform: scale(1.02);
-        }
-        button:active {
-          transform: scale(0.98);
         }
       `}</style>
     </nav>

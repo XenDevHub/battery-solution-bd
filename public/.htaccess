@@ -1,0 +1,21 @@
+# Optimized .htaccess for Next.js Static Export with trailingSlash: true
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Redirect /page to /page/ (if folder exists)
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteCond %{REQUEST_URI} !(/$)
+  RewriteRule ^(.*)$ %{REQUEST_URI}/ [R=301,L]
+
+  # Optional: Map /page to /page/ if it doesn't have a trailing slash
+  # and it's not a file. This ensures cleaner routing.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_URI} !(.*)/$
+  RewriteRule ^(.*)$ %1/ [R=301,L]
+
+  # Custom 404 page
+  ErrorDocument 404 /404.html
+</IfModule>

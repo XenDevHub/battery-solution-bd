@@ -63,6 +63,7 @@ body {
   background-color: var(--background);
   color: var(--on-background);
   font-family: 'Inter', sans-serif;
+  scroll-behavior: smooth;
 }
 
 a {
@@ -139,6 +140,30 @@ a {
 
 .section {
   padding: var(--section-gap) 0;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --section-gap: 48px;
+    --container-padding: 16px;
+    --grid-gutter: 16px;
+  }
+  
+  .headline-xl {
+    font-size: 32px;
+  }
+  
+  .headline-lg {
+    font-size: 24px;
+  }
+  
+  .headline-md {
+    font-size: 20px;
+  }
+
+  .body-lg {
+    font-size: 16px;
+  }
 }
 
 .grid {

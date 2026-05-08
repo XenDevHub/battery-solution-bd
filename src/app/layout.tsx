@@ -13,8 +13,8 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Dhaka Battery Co. | Industrial Energy Solutions",
-  description: "Engineered for the high-demand infrastructure of Bangladesh. Our deep-cycle lithium batteries provide stable, high-efficiency power.",
+  title: "Battery Solution Bd | Industrial Energy Solutions",
+  description: "Your trusted partner for high-efficiency lithium batteries and solar solutions in Bangladesh.",
 };
 
 export default function RootLayout({
