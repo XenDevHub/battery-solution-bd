@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" width="400" height="120">
+  <defs>
+    <linearGradient id="batteryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0288d1" />
+      <stop offset="100%" stop-color="#01579b" />
+    </linearGradient>
+    <linearGradient id="boltGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffeb3b" />
+      <stop offset="100%" stop-color="#fbc02d" />
+    </linearGradient>
+  </defs>
+
+  <!-- Battery Body -->
+  <rect x="20" y="30" width="60" height="60" rx="8" ry="8" fill="url(#batteryGrad)" />
+  <rect x="80" y="48" width="8" height="24" rx="3" ry="3" fill="#01579b" />
+  
+  <!-- Bolt Icon -->
+  <path d="M48 38 L36 58 L48 58 L42 82 L60 54 L48 54 Z" fill="url(#boltGrad)" />
+
+  <!-- Text: Battery -->
+  <text x="100" y="65" font-family="'Arial', sans-serif" font-size="38" font-weight="900" fill="#ffffff" letter-spacing="1">BATTERY</text>
+  
+  <!-- Text: Solution BD -->
+  <text x="105" y="90" font-family="'Arial', sans-serif" font-size="20" font-weight="700" fill="#fbc02d" letter-spacing="3">SOLUTION BD</text>
+</svg>

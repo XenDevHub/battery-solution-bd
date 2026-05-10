@@ -18,7 +18,16 @@ const Footer = () => {
           gap: "var(--grid-gutter)"
         }}>
           <div style={{ gridColumn: "span 1" }}>
-            <div className="headline-md" style={{ color: "#ffdbce", marginBottom: "1.5rem" }}>Battery Solution Bd</div>
+            <div style={{ marginBottom: "1.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <span className="material-symbols-outlined" style={{ 
+                fontSize: "28px", 
+                color: "var(--secondary)",
+                animation: "spin 4s linear infinite"
+              }}>
+                settings
+              </span>
+              <div className="headline-sm" style={{ color: "#ffffff", fontWeight: "bold" }}>Battery Solution BD</div>
+            </div>
             <p className="body-md" style={{ opacity: 0.8, marginBottom: "1.5rem" }}>
               Pioneering energy stability for Bangladesh through advanced lithium chemistry and industrial-grade storage solutions.
             </p>
@@ -72,6 +81,10 @@ const Footer = () => {
         </div>
       </div>
       <style jsx>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
         .footer-links li:hover {
           color: #ffdbce;
           cursor: pointer;

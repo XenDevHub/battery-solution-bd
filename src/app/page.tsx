@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import CategoryBar from "@/components/CategoryBar";
 import Hero from "@/components/Hero";
 import BrandsSection from "@/components/BrandsSection";
 import WhyChooseUsSection from "@/components/WhyChooseUsSection";
@@ -14,6 +15,7 @@ export default function Home() {
   return (
     <main>
       <Navbar />
+      <CategoryBar />
       <Hero />
       <BrandsSection />
       <ProductGrid />

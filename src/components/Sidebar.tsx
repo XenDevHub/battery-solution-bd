@@ -16,6 +16,8 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
   const navItems = [
     { icon: "home", label: "Back to Website", href: "/" },
     { icon: "dashboard", label: "Dashboard", href: "/admin" },
+    { icon: "category", label: "Categories", href: "/admin/categories" },
+    { icon: "image", label: "Hero Images", href: "/admin/hero" },
     { icon: "battery_charging_full", label: "Inventory", href: "/admin/inventory" },
     { icon: "shopping_cart", label: "Orders", href: "/admin/orders" },
     { icon: "video_library", label: "Video Portal", href: "/admin/videos" },

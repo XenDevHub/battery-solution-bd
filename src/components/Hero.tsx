@@ -1,148 +1,152 @@
 "use client";
 
-import React from "react";
-import Image from "next/image";
+import React, { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
+
+interface HeroImage {
+  id: string;
+  url: string;
+  position: "slider" | "static_top" | "static_bottom";
+}
 
 const Hero = () => {
-  return (
-    <header className="technical-grid" style={{
-      position: "relative",
-      overflow: "hidden",
-      backgroundColor: "transparent",
-      padding: "8rem 0",
-      borderBottom: "1px solid var(--outline-variant)",
-      isolation: "isolate"
-    }}>
-      {/* Background Video */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        style={{
-          position: "absolute",
-          top: "0",
-          left: "0",
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          zIndex: -1,
-          opacity: 0.7
-        }}
-      >
-        <source src="/battery.mp4" type="video/mp4" />
-      </video>
+  const [images, setImages] = useState<HeroImage[]>([]);
+  const [sliderIndex, setSliderIndex] = useState(0);
 
-      <div className="container" style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-        gap: "var(--grid-gutter)",
-        alignItems: "center",
+  useEffect(() => {
+    const fetchImages = async () => {
+      const { data, error } = await supabase.from("hero_images").select("*").order("created_at", { ascending: true });
+      if (!error && data && data.length > 0) {
+        setImages(data);
+      } else {
+        // Fallback images
+        setImages([
+          { id: "1", url: "https://images.unsplash.com/photo-1620800649725-703444458f27?q=80&w=1200&auto=format&fit=crop", position: "slider" },
+          { id: "2", url: "https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=1200&auto=format&fit=crop", position: "slider" },
+          { id: "3", url: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?q=80&w=1200&auto=format&fit=crop", position: "slider" },
+          { id: "4", url: "https://images.unsplash.com/photo-1513828583688-c52646db42da?q=80&w=400&auto=format&fit=crop", position: "static_top" },
+          { id: "5", url: "https://images.unsplash.com/photo-1624365168968-3d14f4eb0d70?q=80&w=400&auto=format&fit=crop", position: "static_bottom" },
+        ]);
+      }
+    };
+    fetchImages();
+  }, []);
+
+  const sliderImages = images.filter(img => img.position === "slider");
+  const staticTopImage = images.find(img => img.position === "static_top");
+  const staticBottomImage = images.find(img => img.position === "static_bottom");
+
+  useEffect(() => {
+    if (sliderImages.length > 1) {
+      const interval = setInterval(() => {
+        setSliderIndex((prev) => (prev + 1) % sliderImages.length);
+      }, 3000); // Change image every 3 seconds
+      return () => clearInterval(interval);
+    }
+  }, [sliderImages.length]);
+
+  return (
+    <header style={{
+      width: "100%",
+      margin: "0",
+      height: "calc(100vh - 120px)",
+      minHeight: "500px",
+      maxHeight: "800px",
+      display: "flex",
+      overflow: "hidden",
+      backgroundColor: "#f1dcdcff",
+      borderRadius: "0",
+      boxShadow: "none"
+    }}>
+      {/* 75% Left Part - Slider */}
+      <div style={{
+        width: "75%",
+        height: "100%",
         position: "relative",
-        zIndex: 10
+        marginRight: "15px" // Increased gap between parts
       }}>
-        <div>
-          <span className="label-caps" style={{
-            backgroundColor: "var(--secondary)",
-            color: "#fff",
-            padding: "4px 12px",
-            marginBottom: "1.5rem",
-            display: "inline-block",
-            borderRadius: "var(--radius-sm)"
-          }}>
-            Industrial Grade LiFePO4
-          </span>
-          <h1 className="headline-xl" style={{ color: "#08086eff", marginBottom: "1.5rem" }}>
-            Reliable Energy for <span style={{ color: "var(--secondary)" }}>Bangladesh</span>
-          </h1>
-          <p className="body-lg" style={{ color: "rgba(24, 10, 104, 0.8)", marginBottom: "2rem", maxWidth: "500px" }}>
-            Engineered for the high-demand infrastructure of Bangladesh. Our deep-cycle lithium batteries provide stable, high-efficiency power for solar off-grids, industrial backups, and telecommunications.
-          </p>
-          <div className="flex" style={{ gap: "1rem", flexWrap: "wrap" }}>
-            <button className="headline-md" style={{
-              backgroundColor: "var(--secondary)",
-              color: "#fff",
-              padding: "1rem 2rem",
-              border: "none",
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              cursor: "pointer",
-              transition: "background 0.3s"
-            }}>
-              Explore Inventory
-              <span className="material-symbols-outlined">bolt</span>
-            </button>
-            <button className="headline-md" style={{
-              backgroundColor: "transparent",
-              color: "#fff",
-              padding: "1rem 2rem",
-              border: "2px solid #fff",
-              cursor: "pointer",
-              transition: "all 0.3s",
-              backdropFilter: "blur(4px)"
-            }}>
-              Technical Catalog
-            </button>
-          </div>
-        </div>
-        <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <div style={{
-            position: "absolute",
-            inset: 0,
-            transform: "rotate(-3deg) scale(1.05)",
-            zIndex: 0,
-            backdropFilter: "blur(10px)",
-            borderRadius: "var(--radius-lg)",
-            backgroundColor: "rgba(255,255,255,0.05)"
-          }}></div>
-          <div style={{ position: "relative", zIndex: 10, mixBlendMode: "screen" }}>
-            <Image
-              src="/images/battery-lineup-black.png"
-              alt="Premium LiFePO4 Battery Lineup"
-              width={800}
-              height={600}
-              unoptimized
+        {sliderImages.length > 0 ? (
+          sliderImages.map((img, index) => (
+            <div
+              key={img.id}
               style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
                 width: "100%",
-                height: "auto",
-                objectFit: "contain",
-                filter: "contrast(1.2) brightness(1.2)",
+                height: "100%",
+                opacity: index === sliderIndex ? 1 : 0,
+                transition: "opacity 1s ease-in-out",
+                backgroundImage: `url(${img.url})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
               }}
-              priority
             />
+          ))
+        ) : (
+          <div style={{ width: "100%", height: "100%", backgroundColor: "#333", display: "flex", alignItems: "center", justifyContent: "center", color: "white" }}>
+            Loading...
           </div>
-        </div>
+        )}
+      </div>
+
+      {/* 25% Right Part - Static Images */}
+      <div style={{
+        width: "25%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        gap: "15px" // Added gap between top and bottom images too
+      }}>
+        {/* Top 50% */}
+        <div style={{
+          flex: 1,
+          width: "100%",
+          backgroundImage: staticTopImage ? `url(${staticTopImage.url})` : "none",
+          backgroundColor: "#444",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }} />
+
+        {/* Bottom 50% */}
+        <div style={{
+          flex: 1,
+          width: "100%",
+          backgroundImage: staticBottomImage ? `url(${staticBottomImage.url})` : "none",
+          backgroundColor: "#555",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }} />
       </div>
 
       <style jsx>{`
-        button:first-child:hover {
-          background-color: var(--primary-container) !important;
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
         }
-        button:last-child:hover {
-          background-color: var(--primary) !important;
-          color: var(--on-primary) !important;
+        .rotating {
+          animation: spin 4s linear infinite;
         }
         @media (max-width: 768px) {
           header {
-            padding: 4rem 0 !important;
+            flex-direction: column !important;
+            height: auto !important;
+            min-height: 100vh !important;
           }
-          .flex {
-            justify-content: center;
+          header > div:first-child {
+            width: 100% !important;
+            height: 60vh !important;
+            margin-right: 0 !important;
+            margin-bottom: 10px !important;
           }
-          h1 {
-            text-align: center;
+          header > div:last-child {
+            width: 100% !important;
+            height: 40vh !important;
+            flex-direction: row !important;
           }
-          p {
-            text-align: center;
-            margin-left: auto;
-            margin-right: auto;
-          }
-          span.label-caps {
-            display: block !important;
-            width: fit-content;
-            margin-left: auto;
-            margin-right: auto;
+          header > div:last-child > div {
+            width: 50% !important;
+            height: 100% !important;
           }
         }
       `}</style>
