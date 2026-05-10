@@ -1,10 +1,10 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 
 export default function InventoryPage() {
   const [batteries, setBatteries] = useState<any[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [newBattery, setNewBattery] = useState({ title: "", sku: "", capacity: "", voltage: "12V DC", price: "", stock: 0 });
@@ -18,6 +18,11 @@ export default function InventoryPage() {
     const { data } = await supabase.from('batteries').select('*').order('created_at', { ascending: false });
     if (data) setBatteries(data);
   };
+
+  const filteredBatteries = batteries.filter(b => 
+    b.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    b.sku.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,22 +77,47 @@ export default function InventoryPage() {
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem" }}>
         <h1 className="headline-lg">Battery Inventory</h1>
-        <button 
-          onClick={() => setIsModalOpen(true)}
-          style={{
-            backgroundColor: "var(--secondary)",
-            color: "#fff",
-            padding: "0.75rem 1.5rem",
-            border: "none",
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            cursor: "pointer",
-            fontWeight: "bold"
-          }} className="label-caps">
-          <span className="material-symbols-outlined">add</span>
-          Add New Battery
-        </button>
+        <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+          <div style={{ position: "relative" }}>
+            <span className="material-symbols-outlined" style={{ 
+              position: "absolute", 
+              left: "12px", 
+              top: "50%", 
+              transform: "translateY(-50%)",
+              color: "var(--outline)",
+              fontSize: "20px"
+            }}>search</span>
+            <input 
+              type="text" 
+              placeholder="Search by name or SKU..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{ 
+                padding: "10px 10px 10px 40px", 
+                border: "1px solid var(--outline-variant)",
+                borderRadius: "var(--radius-md)",
+                width: "250px",
+                fontSize: "14px"
+              }}
+            />
+          </div>
+          <button 
+            onClick={() => setIsModalOpen(true)}
+            style={{
+              backgroundColor: "var(--secondary)",
+              color: "#fff",
+              padding: "0.75rem 1.5rem",
+              border: "none",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              cursor: "pointer",
+              fontWeight: "bold"
+            }} className="label-caps">
+            <span className="material-symbols-outlined">add</span>
+            Add New
+          </button>
+        </div>
       </div>
 
       <div style={{ backgroundColor: "#fff", border: "1px solid var(--outline-variant)" }}>
@@ -103,7 +133,7 @@ export default function InventoryPage() {
             </tr>
           </thead>
           <tbody>
-            {batteries.map((b) => (
+            {filteredBatteries.map((b) => (
               <tr key={b.id} style={{ borderBottom: "1px solid var(--outline-variant)" }}>
                 <td style={{ padding: "1rem 1.5rem" }}>
                   <img src={b.image_url || "https://via.placeholder.com/50"} alt="" style={{ width: "50px", height: "50px", objectFit: "contain" }} />
@@ -141,6 +171,11 @@ export default function InventoryPage() {
             ))}
           </tbody>
         </table>
+        {filteredBatteries.length === 0 && (
+          <div style={{ padding: "3rem", textAlign: "center", color: "var(--outline)" }}>
+            No products found matching your search.
+          </div>
+        )}
       </div>
 
       {/* Add Battery Modal */}
@@ -196,3 +231,4 @@ export default function InventoryPage() {
     </div>
   );
 }
+

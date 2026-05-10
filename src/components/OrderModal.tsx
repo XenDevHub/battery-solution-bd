@@ -19,6 +19,8 @@ const OrderModal = ({ isOpen, onClose, battery }: any) => {
     setLoading(true);
 
     try {
+      const orderId = `BSB-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
+      
       const { error } = await supabase
         .from('orders')
         .insert([
@@ -27,14 +29,15 @@ const OrderModal = ({ isOpen, onClose, battery }: any) => {
             user_name: formData.userName,
             mobile_no: formData.mobileNo,
             bkash_txid: formData.bkashTxid,
-            status: 'pending'
+            status: 'pending',
+            order_id: orderId
           }
         ]);
 
       if (error) throw error;
 
       // WhatsApp Integration
-      const message = `*New Order Received*%0A%0A*Product:* ${battery.title}%0A*Customer:* ${formData.userName}%0A*Mobile:* ${formData.mobileNo}%0A*bKash TxID:* ${formData.bkashTxid}`;
+      const message = `*New Order Received*%0A%0A*Order ID:* ${orderId}%0A*Product ID:* ${battery.sku}%0A*Product:* ${battery.title}%0A*Customer:* ${formData.userName}%0A*Mobile:* ${formData.mobileNo}%0A*bKash TxID:* ${formData.bkashTxid}`;
       const whatsappUrl = `https://wa.me/8801601372827?text=${message}`;
       
       window.open(whatsappUrl, '_blank');
