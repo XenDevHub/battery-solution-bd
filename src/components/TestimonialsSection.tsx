@@ -5,24 +5,24 @@ import React from 'react';
 const TestimonialsSection = () => {
   const testimonials = [
     {
-      name: "Abdur Rahman",
-      role: "Logistics Manager",
-      company: "Green Transit Ltd.",
-      content: "The Hamko deep cycle batteries we purchased have significantly improved our fleet's uptime. Battery Solution BD's installation service was professional and timely.",
+      name: "আব্দুর রহমান",
+      role: "লজিস্টিকস ম্যানেজার",
+      company: "গ্রীন ট্রানজিট লিমিটেড, ঢাকা",
+      content: "আমরা যে হ্যামকো ডিপ সাইকেল ব্যাটারিগুলো কিনেছি তা আমাদের যানবাহনের কর্মক্ষমতা অনেক বাড়িয়ে দিয়েছে। ব্যাটারি সলিউশন বিডি-র ইনস্টলেশন সার্ভিস ছিল খুবই পেশাদার এবং সময়োপযোগী।",
       rating: 5
     },
     {
-      name: "Sultana Ahmed",
-      role: "Homeowner",
-      company: "Residential Client",
-      content: "Excellent service! They helped me choose the right Rahimafrooz battery for my IPS. The home delivery was fast, and the technician was very helpful.",
+      name: "সুলতানা আহমেদ",
+      role: "গৃহিনী",
+      company: "আবাসিক গ্রাহক, চট্টগ্রাম",
+      content: "চমৎকার সার্ভিস! তারা আমার আইপিএসের জন্য সঠিক রহিমআফরোজ ব্যাটারি বেছে নিতে সাহায্য করেছে। হোম ডেলিভারি ছিল খুব দ্রুত এবং টেকনিশিয়ান অনেক হেল্পফুল ছিলেন।",
       rating: 5
     },
     {
-      name: "Kamal Hossain",
-      role: "Technical Lead",
-      company: "BuildRight Construction",
-      content: "Finding genuine Lucas batteries in bulk is often difficult, but Battery Solution BD made it easy. Their technical knowledge is top-notch.",
+      name: "কামাল হোসেন",
+      role: "টেকনিক্যাল লিড",
+      company: "বিল্ডরাইট কনস্ট্রাকশন, রাজশাহী",
+      content: "একসাথে অনেকগুলো আসল লুকাস ব্যাটারি পাওয়া বেশ কঠিন, কিন্তু ব্যাটারি সলিউশন বিডি সেটা সহজ করে দিয়েছে। তাদের টেকনিক্যাল জ্ঞান আসলেই প্রশংসার দাবিদার।",
       rating: 4
     }
   ];
@@ -31,8 +31,8 @@ const TestimonialsSection = () => {
     <section className="section" style={{ backgroundColor: 'var(--surface)', borderTop: '1px solid var(--outline-variant)' }}>
       <div className="container">
         <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-          <span className="label-caps" style={{ color: 'var(--secondary)', marginBottom: '0.5rem', display: 'block' }}>TESTIMONIALS</span>
-          <h2 className="headline-lg" style={{ color: 'var(--primary)' }}>What Our Clients Say</h2>
+          <span className="label-caps" style={{ color: 'var(--secondary)', marginBottom: '0.5rem', display: 'block' }}>প্রশংসাপত্র</span>
+          <h2 className="headline-lg" style={{ color: 'var(--primary)' }}>আমাদের গ্রাহকরা যা বলেন</h2>
           <div style={{ height: '4px', width: '60px', backgroundColor: 'var(--secondary)', margin: '1rem auto 0 auto' }}></div>
         </div>
 
