@@ -9,35 +9,46 @@ import OrderModal from "@/components/OrderModal";
 export default function ProductsPage() {
   const [batteries, setBatteries] = useState<any[]>([]);
   const [filteredBatteries, setFilteredBatteries] = useState<any[]>([]);
+  const [categories, setCategories] = useState<string[]>(["All"]);
   const [selectedBattery, setSelectedBattery] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedBrand, setSelectedBrand] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   useEffect(() => {
-    const fetchBatteries = async () => {
-      const { data } = await supabase.from('batteries').select('*').order('created_at', { ascending: false });
-      if (data) {
-        setBatteries(data);
-        setFilteredBatteries(data);
+    const fetchData = async () => {
+      // Fetch Batteries
+      const { data: batteryData } = await supabase.from('batteries').select('*').order('created_at', { ascending: false });
+      if (batteryData) {
+        setBatteries(batteryData);
+        setFilteredBatteries(batteryData);
+      }
+
+      // Fetch Categories from Database
+      const { data: categoryData } = await supabase.from('categories').select('name');
+      if (categoryData) {
+        const catNames = ["All", ...categoryData.map(c => c.name)];
+        setCategories(catNames);
       }
     };
-    fetchBatteries();
+    fetchData();
   }, []);
 
   useEffect(() => {
-    if (selectedBrand === "All") {
+    if (selectedCategory === "All") {
       setFilteredBatteries(batteries);
     } else {
-      setFilteredBatteries(batteries.filter(b => b.title.toLowerCase().includes(selectedBrand.toLowerCase())));
+      // Filter by the actual category field if it exists, otherwise fallback to title search for legacy support
+      setFilteredBatteries(batteries.filter(b => 
+        (b.category && b.category === selectedCategory) || 
+        (b.title.toLowerCase().includes(selectedCategory.toLowerCase()))
+      ));
     }
-  }, [selectedBrand, batteries]);
+  }, [selectedCategory, batteries]);
 
   const handleOrder = (battery: any) => {
     setSelectedBattery(battery);
     setIsModalOpen(true);
   };
-
-  const brands = ["All", "Rahimafrooz", "Hamko", "Volta", "Navana", "Pylontech", "Growatt", "Felicity", "Lucas", "Globatt", "LifePo4", "DJDC", "Sako"];
 
   return (
     <main style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "#f8f9fa" }}>
@@ -87,33 +98,33 @@ export default function ProductsPage() {
             alignItems: "center",
             gap: "1.5rem"
           }}>
-            <div className="label-caps" style={{ color: "var(--outline)", fontSize: "12px" }}>FILTER BY MANUFACTURER</div>
+            <div className="label-caps" style={{ color: "var(--outline)", fontSize: "12px" }}>FILTER BY CATEGORY</div>
             <div style={{ 
               display: "flex", 
               justifyContent: "center", 
               gap: "0.75rem", 
               flexWrap: "wrap"
             }}>
-              {brands.map(brand => (
+              {categories.map(category => (
                 <button
-                  key={brand}
-                  onClick={() => setSelectedBrand(brand)}
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
                   style={{
                     padding: "10px 20px",
                     borderRadius: "var(--radius-full)",
                     border: "none",
-                    backgroundColor: selectedBrand === brand ? "var(--primary)" : "var(--surface-container-low)",
-                    color: selectedBrand === brand ? "white" : "var(--on-surface-variant)",
+                    backgroundColor: selectedCategory === category ? "var(--primary)" : "var(--surface-container-low)",
+                    color: selectedCategory === category ? "white" : "var(--on-surface-variant)",
                     cursor: "pointer",
                     transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                     fontWeight: "600",
                     fontSize: "13px",
-                    boxShadow: selectedBrand === brand ? "0 4px 12px rgba(0,30,64,0.2)" : "none",
+                    boxShadow: selectedCategory === category ? "0 4px 12px rgba(0,30,64,0.2)" : "none",
                     letterSpacing: "0.5px"
                   }}
                   className="filter-btn"
                 >
-                  {brand}
+                  {category}
                 </button>
               ))}
             </div>
@@ -257,8 +268,8 @@ export default function ProductsPage() {
             <div style={{ textAlign: "center", padding: "6rem 2rem", backgroundColor: "white", borderRadius: "var(--radius-xl)", boxShadow: "0 10px 30px rgba(0,0,0,0.04)" }}>
               <span className="material-symbols-outlined" style={{ fontSize: "64px", color: "var(--outline-variant)", marginBottom: "1rem" }}>inventory_2</span>
               <h2 className="headline-md">No Matching Products</h2>
-              <p className="body-lg" style={{ color: "var(--on-surface-variant)", marginTop: "0.5rem" }}>We couldn't find any batteries matching "{selectedBrand}". Try another filter.</p>
-              <button onClick={() => setSelectedBrand("All")} style={{ marginTop: "2rem", color: "var(--secondary)", fontWeight: "bold", background: "none", border: "none", cursor: "pointer", textDecoration: "underline" }}>Clear All Filters</button>
+              <p className="body-lg" style={{ color: "var(--on-surface-variant)", marginTop: "0.5rem" }}>We couldn't find any batteries matching "{selectedCategory}". Try another filter.</p>
+              <button onClick={() => setSelectedCategory("All")} style={{ marginTop: "2rem", color: "var(--secondary)", fontWeight: "bold", background: "none", border: "none", cursor: "pointer", textDecoration: "underline" }}>Clear All Filters</button>
             </div>
           )}
         </div>
