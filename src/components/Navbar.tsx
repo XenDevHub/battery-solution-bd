@@ -46,7 +46,7 @@ const Navbar = () => {
               settings
             </span>
           </div>
-          <span style={{ 
+          <span className="logo-text" style={{ 
             color: "#ffffff", 
             fontWeight: "900", 
             fontSize: "1.4rem", 
@@ -89,14 +89,12 @@ const Navbar = () => {
 
         {/* Hamburger Button */}
         <button
-          className="md:hidden"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           style={{
             background: "none",
             border: "none",
             color: "var(--on-primary)",
             cursor: "pointer",
-            display: "none" // Managed by media query
           }}
           id="mobile-menu-toggle"
         >
@@ -166,12 +164,20 @@ const Navbar = () => {
           display: none !important;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
           #desktop-menu {
             display: none !important;
           }
           #mobile-menu-toggle {
             display: block !important;
+          }
+          .container {
+             display: flex !important;
+             justify-content: space-between !important;
+             width: 100% !important;
+          }
+          span.logo-text {
+            font-size: 1.1rem !important;
           }
         }
       `}</style>

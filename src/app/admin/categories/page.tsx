@@ -70,12 +70,12 @@ export default function CategoriesAdmin() {
   };
 
   return (
-    <div style={{ padding: "2rem", maxWidth: "800px", margin: "0 auto" }}>
-      <h1 className="headline-md" style={{ marginBottom: "2rem" }}>Manage Categories</h1>
+    <div style={{ padding: "0", maxWidth: "800px", margin: "0 auto" }}>
+      <h1 className="headline-lg" style={{ marginBottom: "2rem" }}>Manage Categories</h1>
 
-      <div style={{ backgroundColor: "var(--surface-container)", padding: "1.5rem", borderRadius: "8px", marginBottom: "2rem" }}>
+      <div style={{ backgroundColor: "var(--surface-container)", padding: "1.25rem", borderRadius: "8px", marginBottom: "2rem" }}>
         <h2 className="headline-sm" style={{ marginBottom: "1rem" }}>Add New Category</h2>
-        <form onSubmit={handleCreate} style={{ display: "flex", gap: "1rem" }}>
+        <form onSubmit={handleCreate} style={{ display: "flex", gap: "1rem", flexDirection: "column" }} className="mobile-column-form">
           <input
             type="text"
             value={newCategoryName}
@@ -90,7 +90,7 @@ export default function CategoriesAdmin() {
         </form>
       </div>
 
-      <div style={{ backgroundColor: "var(--surface-container)", padding: "1.5rem", borderRadius: "8px" }}>
+      <div style={{ backgroundColor: "var(--surface-container)", padding: "1.25rem", borderRadius: "8px" }}>
         <h2 className="headline-sm" style={{ marginBottom: "1rem" }}>Existing Categories</h2>
         {loading ? (
           <p>Loading...</p>
@@ -129,6 +129,13 @@ export default function CategoriesAdmin() {
           </ul>
         )}
       </div>
+      <style jsx>{`
+        @media (min-width: 601px) {
+          .mobile-column-form {
+            flex-direction: row !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }

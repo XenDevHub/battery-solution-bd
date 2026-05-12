@@ -38,10 +38,10 @@ export default function VideosPage() {
   };
 
   return (
-    <div className="grid" style={{ gridTemplateColumns: "1fr 1fr", gap: "2rem" }}>
+    <div className="grid video-grid" style={{ gridTemplateColumns: "1fr 1fr", gap: "2rem" }}>
       <div>
         <h1 className="headline-lg" style={{ marginBottom: "2rem" }}>Video Content Portal</h1>
-        <form onSubmit={handleSync} style={{ backgroundColor: "#fff", padding: "2rem", border: "1px solid var(--outline-variant)" }}>
+        <form onSubmit={handleSync} style={{ backgroundColor: "#fff", padding: "1.5rem", border: "1px solid var(--outline-variant)" }}>
           <h3 className="headline-md" style={{ marginBottom: "1.5rem" }}>Add New Tutorial</h3>
           <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
             <div>
@@ -67,22 +67,30 @@ export default function VideosPage() {
       </div>
 
       <div>
-        <h3 className="headline-md" style={{ marginBottom: "1.5rem" }}>Live Content</h3>
+        <h3 className="headline-md" style={{ marginBottom: "1.5rem", marginTop: "1rem" }}>Live Content</h3>
         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
           {videos.map((v) => (
-            <div key={v.id} style={{ backgroundColor: "#fff", padding: "1rem", border: "1px solid var(--outline-variant)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <div>
-                <p className="body-md" style={{ fontWeight: "bold" }}>{v.title}</p>
-                <p style={{ fontSize: "12px", color: "var(--primary)" }}>{v.youtube_url}</p>
+            <div key={v.id} style={{ backgroundColor: "#fff", padding: "1.25rem", border: "1px solid var(--outline-variant)", display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "1rem" }}>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <p className="body-md" style={{ fontWeight: "bold", color: "var(--primary)", lineHeight: "1.4" }}>{v.title}</p>
+                <p style={{ fontSize: "11px", color: "var(--secondary)", wordBreak: "break-all", marginTop: "4px" }}>{v.youtube_url}</p>
               </div>
-              <button onClick={() => handleDelete(v.id)} style={{ background: "none", border: "none", color: "#ef4444", cursor: "pointer" }}>
-                <span className="material-symbols-outlined">delete</span>
+              <button onClick={() => handleDelete(v.id)} style={{ background: "var(--surface-container)", border: "none", color: "#ef4444", cursor: "pointer", flexShrink: 0, padding: "8px", borderRadius: "4px", display: "flex", alignItems: "center" }}>
+                <span className="material-symbols-outlined" style={{ fontSize: "20px" }}>delete</span>
               </button>
             </div>
           ))}
           {videos.length === 0 && <p className="body-md" style={{ opacity: 0.5 }}>No videos synced yet.</p>}
         </div>
       </div>
+      <style jsx>{`
+        @media (max-width: 1024px) {
+          .video-grid {
+            grid-template-columns: 1fr !important;
+            gap: 1.5rem !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }

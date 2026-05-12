@@ -60,10 +60,14 @@ const DashboardHeader = ({ onMenuClick }: { onMenuClick?: () => void }) => {
             display: block !important;
           }
           .grid-status {
-            display: none !important;
+            display: flex !important;
+            padding: 2px 8px !important;
+          }
+          .grid-status span {
+            font-size: 10px !important;
           }
           h2 {
-            font-size: 18px !important;
+            font-size: 14px !important;
           }
         }
       `}</style>

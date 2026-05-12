@@ -135,18 +135,18 @@ const Hero = () => {
           }
           header > div:first-child {
             width: 100% !important;
-            height: 60vh !important;
+            height: 50vh !important;
             margin-right: 0 !important;
             margin-bottom: 10px !important;
           }
           header > div:last-child {
             width: 100% !important;
-            height: 40vh !important;
-            flex-direction: row !important;
+            height: 50vh !important;
+            flex-direction: column !important;
           }
           header > div:last-child > div {
-            width: 50% !important;
-            height: 100% !important;
+            width: 100% !important;
+            height: 50% !important;
           }
         }
       `}</style>

@@ -126,13 +126,13 @@ export default function HeroAdmin() {
   };
 
   return (
-    <div style={{ padding: "2rem", maxWidth: "800px", margin: "0 auto" }}>
-      <h1 className="headline-md" style={{ marginBottom: "2rem" }}>Manage Hero Images</h1>
+    <div style={{ padding: "0", maxWidth: "800px", margin: "0 auto" }}>
+      <h1 className="headline-lg" style={{ marginBottom: "2rem" }}>Manage Hero Images</h1>
 
-      <div style={{ backgroundColor: "var(--surface-container)", padding: "1.5rem", borderRadius: "8px", marginBottom: "2rem" }}>
+      <div style={{ backgroundColor: "var(--surface-container)", padding: "1.25rem", borderRadius: "8px", marginBottom: "2rem" }}>
         <h2 className="headline-sm" style={{ marginBottom: "1rem" }}>Upload New Image</h2>
         <form onSubmit={handleCreate} style={{ display: "flex", gap: "1rem", flexWrap: "wrap", alignItems: "flex-end" }}>
-          <div style={{ flex: 1, minWidth: "250px" }}>
+          <div style={{ flex: "1 1 100%", minWidth: "200px" }} className="form-item">
             <label className="label-caps" style={{ display: "block", marginBottom: "0.5rem" }}>Select Image File</label>
             <input
               id="hero-file-input"
@@ -142,12 +142,12 @@ export default function HeroAdmin() {
               style={{ width: "100%", padding: "0.5rem", borderRadius: "4px", border: "1px solid var(--outline)" }}
             />
           </div>
-          <div>
+          <div style={{ flex: "1 1 100%", minWidth: "200px" }} className="form-item">
             <label className="label-caps" style={{ display: "block", marginBottom: "0.5rem" }}>Position</label>
             <select 
               value={newPosition}
               onChange={(e) => setNewPosition(e.target.value as any)}
-              style={{ padding: "0.75rem", borderRadius: "4px", border: "1px solid var(--outline)" }}
+              style={{ width: "100%", padding: "0.75rem", borderRadius: "4px", border: "1px solid var(--outline)" }}
             >
               <option value="slider">Slider (80% Area)</option>
               <option value="static_top">Static Top (20% Area)</option>
@@ -158,6 +158,7 @@ export default function HeroAdmin() {
             type="submit" 
             disabled={uploading}
             style={{ 
+              width: "100%",
               padding: "0.75rem 1.5rem", 
               backgroundColor: "var(--primary)", 
               color: "var(--on-primary)", 
@@ -166,6 +167,7 @@ export default function HeroAdmin() {
               cursor: uploading ? "not-allowed" : "pointer",
               opacity: uploading ? 0.7 : 1
             }}
+            className="submit-btn"
           >
             {uploading ? "Uploading..." : "Upload"}
           </button>
@@ -175,7 +177,7 @@ export default function HeroAdmin() {
         </p>
       </div>
 
-      <div style={{ backgroundColor: "var(--surface-container)", padding: "1.5rem", borderRadius: "8px" }}>
+      <div style={{ backgroundColor: "var(--surface-container)", padding: "1.25rem", borderRadius: "8px" }}>
         <h2 className="headline-sm" style={{ marginBottom: "1rem" }}>Existing Images</h2>
         {loading ? (
           <p>Loading...</p>
@@ -187,7 +189,7 @@ export default function HeroAdmin() {
               <li key={img.id} style={{ display: "flex", flexDirection: "column", gap: "1rem", padding: "1rem", borderBottom: "1px solid var(--outline-variant)" }}>
                 {editingId === img.id ? (
                   <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", alignItems: "flex-end" }}>
-                    <div style={{ flex: 1, minWidth: "200px" }}>
+                    <div style={{ flex: "1 1 100%", minWidth: "200px" }}>
                       <label className="label-caps" style={{ display: "block", marginBottom: "0.5rem" }}>Change Image (Optional)</label>
                       <input 
                         type="file" 
@@ -196,33 +198,33 @@ export default function HeroAdmin() {
                         style={{ width: "100%", padding: "0.5rem", borderRadius: "4px", border: "1px solid var(--outline)" }}
                       />
                     </div>
-                    <div>
+                    <div style={{ flex: "1 1 100%" }}>
                       <label className="label-caps" style={{ display: "block", marginBottom: "0.5rem" }}>Position</label>
                       <select 
                         value={editPosition}
                         onChange={(e) => setEditPosition(e.target.value as any)}
-                        style={{ padding: "0.5rem", borderRadius: "4px", border: "1px solid var(--outline)" }}
+                        style={{ width: "100%", padding: "0.5rem", borderRadius: "4px", border: "1px solid var(--outline)" }}
                       >
                         <option value="slider">Slider</option>
                         <option value="static_top">Static Top</option>
                         <option value="static_bottom">Static Bottom</option>
                       </select>
                     </div>
-                    <button onClick={handleUpdate} disabled={uploading} style={{ padding: "0.5rem 1rem", backgroundColor: "green", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}>
+                    <button onClick={handleUpdate} disabled={uploading} style={{ flex: 1, padding: "0.5rem 1rem", backgroundColor: "green", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}>
                       {uploading ? "Saving..." : "Save"}
                     </button>
-                    <button onClick={() => setEditingId(null)} style={{ padding: "0.5rem 1rem", backgroundColor: "gray", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}>Cancel</button>
+                    <button onClick={() => setEditingId(null)} style={{ flex: 1, padding: "0.5rem 1rem", backgroundColor: "gray", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}>Cancel</button>
                   </div>
                 ) : (
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "1rem" }}>
-                    <div style={{ flex: 1, display: "flex", gap: "1rem", alignItems: "center" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "1rem" }} className="image-item-row">
+                    <div style={{ flex: 1, display: "flex", gap: "1rem", alignItems: "center" }} className="image-info-box">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={img.url} alt="hero part" style={{ width: "100px", height: "60px", objectFit: "cover", borderRadius: "4px", backgroundColor: "#ddd" }} />
+                      <img src={img.url} alt="hero part" style={{ width: "80px", height: "50px", objectFit: "cover", borderRadius: "4px", backgroundColor: "#ddd" }} />
                       <div>
-                        <span className="label-caps" style={{ color: "var(--secondary)", display: "inline-block", padding: "2px 8px", background: "rgba(0,0,0,0.05)", borderRadius: "12px" }}>
+                        <span className="label-caps" style={{ color: "var(--secondary)", display: "inline-block", padding: "2px 8px", background: "rgba(0,0,0,0.05)", borderRadius: "12px", fontSize: "10px" }}>
                           {img.position.replace('_', ' ').toUpperCase()}
                         </span>
-                        <div style={{ fontSize: "10px", marginTop: "4px", opacity: 0.5, wordBreak: "break-all" }}>{img.url}</div>
+                        <div style={{ fontSize: "10px", marginTop: "4px", opacity: 0.5, wordBreak: "break-all" }} className="hidden sm:block">{img.url.substring(0, 30)}...</div>
                       </div>
                     </div>
                     <div style={{ display: "flex", gap: "0.5rem" }}>
@@ -240,6 +242,16 @@ export default function HeroAdmin() {
           </ul>
         )}
       </div>
+      <style jsx>{`
+        @media (min-width: 601px) {
+          .form-item {
+            flex: 1 !important;
+          }
+          .submit-btn {
+            width: auto !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }

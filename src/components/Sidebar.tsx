@@ -27,7 +27,7 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
     <aside style={{
       width: "256px",
       height: "100vh",
-      position: "fixed",
+      position: "relative",
       left: 0,
       top: 0,
       backgroundColor: "var(--surface-container-highest)",

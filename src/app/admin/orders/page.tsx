@@ -35,10 +35,10 @@ export default function OrdersPage() {
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "2rem", flexDirection: "column", gap: "1rem" }} className="header-stack">
         <h1 className="headline-lg">Customer Orders</h1>
-        <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-          <div style={{ position: "relative" }}>
+        <div style={{ display: "flex", gap: "1rem", alignItems: "center", width: "100%" }}>
+          <div style={{ position: "relative", width: "100%", maxWidth: "400px" }}>
             <span className="material-symbols-outlined" style={{ 
               position: "absolute", 
               left: "12px", 
@@ -56,7 +56,7 @@ export default function OrdersPage() {
                 padding: "10px 10px 10px 40px", 
                 border: "1px solid var(--outline-variant)",
                 borderRadius: "var(--radius-md)",
-                width: "300px",
+                width: "100%",
                 fontSize: "14px"
               }}
             />
@@ -64,55 +64,75 @@ export default function OrdersPage() {
         </div>
       </div>
 
-      <div style={{ backgroundColor: "#fff", border: "1px solid var(--outline-variant)" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
+      <div className="table-container" style={{ 
+        backgroundColor: "#fff", 
+        border: "1px solid var(--outline-variant)", 
+        overflowX: "auto",
+        width: "100%",
+        borderRadius: "var(--radius-md)",
+        boxShadow: "0 2px 4px rgba(0,0,0,0.05)"
+      }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }} className="responsive-table">
           <thead>
             <tr style={{ backgroundColor: "var(--surface-container-low)" }}>
-              <th className="label-caps" style={{ padding: "1rem 1.5rem" }}>Date & ID</th>
-              <th className="label-caps" style={{ padding: "1rem 1.5rem" }}>Product Info</th>
-              <th className="label-caps" style={{ padding: "1rem 1.5rem" }}>Customer</th>
-              <th className="label-caps" style={{ padding: "1rem 1.5rem" }}>bKash TXID</th>
-              <th className="label-caps" style={{ padding: "1rem 1.5rem" }}>Status</th>
+              <th className="label-caps" style={{ padding: "1.25rem 1.5rem", borderBottom: "2px solid var(--outline-variant)" }}>Date & ID</th>
+              <th className="label-caps" style={{ padding: "1.25rem 1.5rem", borderBottom: "2px solid var(--outline-variant)" }}>Product Information</th>
+              <th className="label-caps" style={{ padding: "1.25rem 1.5rem", borderBottom: "2px solid var(--outline-variant)" }}>Customer Details</th>
+              <th className="label-caps" style={{ padding: "1.25rem 1.5rem", borderBottom: "2px solid var(--outline-variant)" }}>Transaction (bKash)</th>
+              <th className="label-caps" style={{ padding: "1.25rem 1.5rem", borderBottom: "2px solid var(--outline-variant)" }}>Action Status</th>
             </tr>
           </thead>
           <tbody>
             {filteredOrders.map((o) => (
-              <tr key={o.id} style={{ borderBottom: "1px solid var(--outline-variant)" }}>
+              <tr key={o.id} style={{ borderBottom: "1px solid var(--outline-variant)", transition: "background-color 0.2s" }} className="table-row">
                 <td style={{ padding: "1.5rem", fontSize: "14px" }}>
-                  <span style={{ fontWeight: "bold", color: "var(--primary)" }}>{o.order_id || 'N/A'}</span><br/>
-                  {new Date(o.created_at).toLocaleDateString()}<br/>
-                  <span style={{ fontSize: "10px", color: "var(--outline)" }}>{new Date(o.created_at).toLocaleTimeString()}</span>
+                  <span style={{ fontWeight: "bold", color: "var(--primary)", fontSize: "15px" }}>{o.order_id || 'N/A'}</span><br/>
+                  <span style={{ display: "inline-block", marginTop: "4px" }}>{new Date(o.created_at).toLocaleDateString()}</span><br/>
+                  <span style={{ fontSize: "11px", color: "var(--outline)" }}>{new Date(o.created_at).toLocaleTimeString()}</span>
                 </td>
                 <td style={{ padding: "1.5rem" }}>
-                  <p className="body-md" style={{ fontWeight: "bold" }}>{o.batteries?.title}</p>
-                  <p className="label-caps" style={{ fontSize: "10px", color: "var(--secondary)", fontWeight: "bold" }}>
-                    SKU / ID: {o.batteries?.sku || 'N/A'}
+                  <p className="body-md" style={{ fontWeight: "700", color: "var(--primary)" }}>{o.batteries?.title}</p>
+                  <p className="label-caps" style={{ fontSize: "10px", color: "var(--secondary)", fontWeight: "800", marginTop: "4px" }}>
+                    SKU: {o.batteries?.sku || 'N/A'}
                   </p>
                 </td>
                 <td style={{ padding: "1.5rem" }}>
-                  <p className="body-md">{o.user_name}</p>
-                  <p style={{ fontSize: "12px", color: "var(--primary)" }}>{o.mobile_no}</p>
+                  <p className="body-md" style={{ fontWeight: "600" }}>{o.user_name}</p>
+                  <p style={{ fontSize: "13px", color: "var(--primary)", marginTop: "2px" }}>{o.mobile_no}</p>
                 </td>
-                <td style={{ padding: "1.5rem" }} className="data-display">
-                  {o.bkash_txid}
+                <td style={{ padding: "1.5rem" }}>
+                  <div style={{ 
+                    backgroundColor: "var(--surface-container)", 
+                    padding: "6px 12px", 
+                    borderRadius: "4px", 
+                    display: "inline-block",
+                    fontFamily: "monospace",
+                    fontWeight: "bold",
+                    color: "var(--secondary)"
+                  }}>
+                    {o.bkash_txid}
+                  </div>
                 </td>
                 <td style={{ padding: "1.5rem" }}>
                   <select 
                     value={o.status}
                     onChange={(e) => updateStatus(o.id, e.target.value)}
                     style={{
-                      padding: "8px",
+                      padding: "10px 14px",
+                      borderRadius: "6px",
                       border: "1px solid var(--outline-variant)",
                       backgroundColor: o.status === 'delivered' ? "#22c55e11" : o.status === 'confirmed' ? "#3b82f611" : "#f59e0b11",
                       color: o.status === 'delivered' ? "#22c55e" : o.status === 'confirmed' ? "#3b82f6" : "#f59e0b",
                       fontWeight: "bold",
                       textTransform: "uppercase",
-                      fontSize: "11px"
+                      fontSize: "12px",
+                      cursor: "pointer",
+                      outline: "none"
                     }}
                   >
-                    <option value="pending">Pending</option>
-                    <option value="confirmed">Confirmed</option>
-                    <option value="delivered">Delivered</option>
+                    <option value="pending">⏳ Pending</option>
+                    <option value="confirmed">✅ Confirmed</option>
+                    <option value="delivered">🚚 Delivered</option>
                   </select>
                 </td>
               </tr>
@@ -120,11 +140,41 @@ export default function OrdersPage() {
           </tbody>
         </table>
         {filteredOrders.length === 0 && (
-          <div style={{ padding: "3rem", textAlign: "center", color: "var(--outline)" }}>
-            No orders found matching your search.
+          <div style={{ padding: "4rem", textAlign: "center", color: "var(--outline)" }}>
+            <span className="material-symbols-outlined" style={{ fontSize: "48px", opacity: 0.3, marginBottom: "1rem" }}>search_off</span>
+            <p className="body-lg">No orders found matching your search.</p>
           </div>
         )}
       </div>
+      <style jsx>{`
+        @media (min-width: 769px) {
+          .header-stack {
+            flex-direction: row !important;
+            align-items: center !important;
+          }
+        }
+        .table-container::-webkit-scrollbar {
+          height: 8px;
+        }
+        .table-container::-webkit-scrollbar-track {
+          background: var(--surface-container);
+        }
+        .table-container::-webkit-scrollbar-thumb {
+          background: var(--outline-variant);
+          border-radius: 4px;
+        }
+        .table-container::-webkit-scrollbar-thumb:hover {
+          background: var(--outline);
+        }
+        .table-row:hover {
+          background-color: var(--surface-container-low);
+        }
+        @media (max-width: 1024px) {
+          .responsive-table {
+            min-width: 1000px !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }

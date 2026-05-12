@@ -50,7 +50,7 @@ export default function MainDashboard() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "1.5rem" }}>
+      <div className="grid stats-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1.5rem" }}>
         {[
           { label: "Total Orders", value: stats.totalOrders, icon: "shopping_cart", color: "var(--primary)" },
           { label: "Revenue (BDT)", value: `৳ ${stats.totalSales.toLocaleString()}`, icon: "payments", color: "var(--secondary)" },
@@ -58,17 +58,17 @@ export default function MainDashboard() {
         ].map((stat, i) => (
           <div key={i} style={{
             backgroundColor: "#fff",
-            padding: "1.5rem",
+            padding: "1.25rem",
             border: "1px solid var(--outline-variant)",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center"
           }}>
             <div>
-              <span className="label-caps" style={{ color: "var(--outline)" }}>{stat.label}</span>
-              <h3 className="data-display" style={{ fontSize: "28px", marginTop: "0.5rem", color: "var(--primary)" }}>{stat.value}</h3>
+              <span className="label-caps" style={{ color: "var(--outline)", fontSize: "10px" }}>{stat.label}</span>
+              <h3 className="data-display" style={{ fontSize: "24px", marginTop: "0.4rem", color: "var(--primary)" }}>{stat.value}</h3>
             </div>
-            <span className="material-symbols-outlined" style={{ fontSize: "40px", color: stat.color, opacity: 0.2 }}>{stat.icon}</span>
+            <span className="material-symbols-outlined" style={{ fontSize: "32px", color: stat.color, opacity: 0.2 }}>{stat.icon}</span>
           </div>
         ))}
       </div>
@@ -77,7 +77,7 @@ export default function MainDashboard() {
       <div style={{ backgroundColor: "#fff", padding: "1.5rem", border: "1px solid var(--outline-variant)" }}>
         <h3 className="headline-md" style={{ marginBottom: "1.5rem" }}>Inventory & Health</h3>
         <div className="admin-grid" style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: "2rem" }}>
-          <div style={{ height: 250 }}>
+          <div style={{ height: 220 }}>
             <ResponsiveContainer>
               <PieChart>
                 <Pie
@@ -86,8 +86,8 @@ export default function MainDashboard() {
                     { name: 'Low Stock', value: 15 },
                     { name: 'Out of Stock', value: 5 }
                   ]}
-                  innerRadius={60}
-                  outerRadius={80}
+                  innerRadius={50}
+                  outerRadius={70}
                   paddingAngle={5}
                   dataKey="value"
                 >
@@ -102,14 +102,14 @@ export default function MainDashboard() {
           <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", gap: "1rem" }}>
             <div className="flex justify-between items-center">
               <span className="body-md">System Stability</span>
-              <span className="label-caps" style={{ color: "#22c55e" }}>99.9% Uptime</span>
+              <span className="label-caps" style={{ color: "#22c55e", fontSize: "10px" }}>99.9% Uptime</span>
             </div>
             <div style={{ width: "100%", height: "8px", backgroundColor: "var(--surface-container)", borderRadius: "4px" }}>
               <div style={{ width: "99%", height: "100%", backgroundColor: "#22c55e", borderRadius: "4px" }}></div>
             </div>
             <div className="flex justify-between items-center">
               <span className="body-md">Inventory Accuracy</span>
-              <span className="label-caps" style={{ color: "var(--secondary)" }}>94.2% Synced</span>
+              <span className="label-caps" style={{ color: "var(--secondary)", fontSize: "10px" }}>94.2% Synced</span>
             </div>
             <div style={{ width: "100%", height: "8px", backgroundColor: "var(--surface-container)", borderRadius: "4px" }}>
               <div style={{ width: "94%", height: "100%", backgroundColor: "var(--secondary)", borderRadius: "4px" }}></div>
@@ -122,6 +122,10 @@ export default function MainDashboard() {
         @media (max-width: 768px) {
           .admin-grid {
             grid-template-columns: 1fr !important;
+            gap: 1rem !important;
+          }
+          .headline-lg {
+            font-size: 20px !important;
           }
         }
       `}</style>
